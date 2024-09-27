@@ -1,5 +1,5 @@
 <?php
-require_once 'Funcionario.php';
+require_once '../app/models/Funcionario.php';
 
 class FuncionarioController {
 
@@ -7,6 +7,10 @@ class FuncionarioController {
         $action = $_GET['action'] ?? null;
 
         switch ($action) {
+            case 'login':
+                $this->login();
+                break;
+
             case 'cadastrar':
                 $this->cadastrar();
                 break;
@@ -22,6 +26,28 @@ class FuncionarioController {
             default:
                 $this->listar();
                 break;
+        }
+    }
+
+    private function login() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = $_POST['email'];
+            $senha = $_POST['senha'];
+
+            $funcionario = Funcionario::findByEmail($email);
+
+            if ($funcionario && password_verify($senha, $funcionario['senha'])) {
+                // Inicie a sessão e redirecione para a dashboard
+                session_start();
+                $_SESSION['usuario'] = $funcionario; // Armazena as informações do funcionário
+                header('Location: dashboard.php'); // Redireciona para a página inicial
+                exit();
+            } else {
+                echo "Credenciais inválidas!";
+                include '../app/views/pages/login.php'; // Reexibe a tela de login
+            }
+        } else {
+            include '../app/views/pages/login.php'; // Exibe a tela de login
         }
     }
 
@@ -73,7 +99,7 @@ class FuncionarioController {
 
     private function listar() {
         $funcionarios = Funcionario::listar();
-        include 'funcionario_view.php'; // Inclui a view de listagem
+        include '../app/views/funcionario/funcionario_view.php'; // Inclui a view de listagem
     }
 }
 

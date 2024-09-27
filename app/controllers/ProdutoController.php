@@ -1,5 +1,5 @@
 <?php
-require_once '../models/Produto.php';
+require_once '../app/models/Produto.php';
 
 class ProdutoController {
     public function cadastrar() {

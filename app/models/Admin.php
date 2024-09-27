@@ -88,5 +88,13 @@ class Admin {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
+    public static function buscarPorEmail($email) {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("SELECT * FROM administradores WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
 }
 ?>

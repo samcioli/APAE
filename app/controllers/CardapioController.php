@@ -1,5 +1,5 @@
 <?php
-include_once 'models/Cardapio.php';
+include_once '../app/models/Cardapio.php';
 
 class CardapioController {
     public static function listar() {

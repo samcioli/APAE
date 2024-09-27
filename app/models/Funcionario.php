@@ -74,6 +74,19 @@ class Funcionario {
         return $funcionario;
     }
 
+    // Buscar por Email
+    public static function findByEmail($email) {
+        $conn = self::conectar();
+        $stmt = $conn->prepare("SELECT * FROM funcionarios WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $funcionario = $result->fetch_assoc(); // Retorna os dados do funcionário
+        $stmt->close();
+        $conn->close();
+        return $funcionario; // Retorna null se não encontrar
+    }
+
     // Atualizar funcionário
     public function atualizar() {
         if ($this->validarDados()) {
@@ -100,12 +113,11 @@ class Funcionario {
 
     // Conectar ao banco de dados
     private static function conectar() {
-        return new mysqli("localhost", "usuario", "senha", "database");
+        return new mysqli("localhost", "root", "", "apae_db");
     }
 
     // Validar dados
     private function validarDados() {
-        // Adicione validações conforme necessário
         if (empty($this->cpf) || empty($this->nome) || empty($this->sobrenome) || empty($this->email) || !filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }

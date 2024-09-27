@@ -1,6 +1,6 @@
 <?php
-require_once '../models/Nutricionista.php';
-require_once '../models/Cardapio.php';
+require_once '../app/models/Nutricionista.php';
+require_once '../app/models/Cardapio.php';
 
 class NutricionistaController {
 

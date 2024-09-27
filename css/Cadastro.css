@@ -1,0 +1,60 @@
+body {
+    background-color: #f8f9fa; /* Cor de fundo suave */
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    background-color: #ffffff; /* Fundo branco para o formulário */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 600px; /* Largura máxima do formulário */
+    margin: auto; /* Centraliza o container */
+}
+
+h1 {
+    color: #2c3e50; /* Cor do título */
+    margin-bottom: 20px; /* Margem inferior */
+}
+
+.form-group label {
+    font-weight: bold; /* Negrito para labels */
+    color: #333; /* Cor mais escura para melhor legibilidade */
+}
+
+.form-control {
+    border-radius: 6px; /* Bordas arredondadas para campos */
+    border: 1px solid #ced4da; /* Cor da borda padrão */
+    transition: border-color 0.3s; /* Transição suave para a borda */
+}
+
+.form-control:focus {
+    border-color: #3498db; /* Cor da borda ao focar */
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* Sombra ao focar */
+}
+
+.btn {
+    border-radius: 6px; /* Bordas arredondadas para botões */
+}
+
+.btn-success {
+    background-color: #28a745; /* Verde para o botão de cadastrar */
+    border: none; /* Remove borda padrão */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Cor do botão ao passar o mouse */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Cinza para o botão de cancelar */
+    border: none; /* Remove borda padrão */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Cor do botão ao passar o mouse */
+}
+
+.alert {
+    border-radius: 6px; /* Bordas arredondadas para alertas */
+}

@@ -1,5 +1,5 @@
 <?php
-include_once 'models/Fornecedor.php';
+include_once '../app/models/Fornecedor.php';
 
 class FornecedorController {
     public static function cadastrar($dados) {

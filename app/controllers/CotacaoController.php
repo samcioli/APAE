@@ -1,5 +1,5 @@
 <?php
-include_once 'models/Cotacao.php';
+include_once '../app/models/Cotacao.php';
 
 class CotacaoController {
     public static function cadastrar($dados) {

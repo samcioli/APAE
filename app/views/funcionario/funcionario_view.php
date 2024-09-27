@@ -59,7 +59,7 @@
         </thead>
         <tbody>
             <?php
-            require_once 'Funcionario.php';
+            require_once '../app/views/funcionario/Funcionario.php';
             $funcionarios = Funcionario::listar();
             foreach ($funcionarios as $funcionario) {
                 echo "<tr>
