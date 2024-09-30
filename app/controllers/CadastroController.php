@@ -1,5 +1,5 @@
 <?php
-include_once '../app/models/Cadastro.php';
+require_once '../app/models/Cadastro.php';
 
 class CadastroController {
     public function cadastrar() {

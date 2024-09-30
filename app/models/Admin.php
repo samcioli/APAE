@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Admin {
     private $id;
     private $cpf;

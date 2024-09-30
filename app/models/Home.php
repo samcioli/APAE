@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Home {
     // Exemplo de propriedades
     private $titulo;

@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Funcionario {
     private $id;
     private $cpf;

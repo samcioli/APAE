@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27-Set-2024 às 20:45
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.2.0
+-- Tempo de geração: 30/09/2024 às 01:21
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,25 +24,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `administradores`
+-- Estrutura para tabela `administradores`
 --
-
-CREATE TABLE `administradores` (
-  `id` int(11) NOT NULL,
-  `cpf` varchar(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `sobrenome` varchar(100) NOT NULL,
-  `data_nascimento` date NOT NULL,
-  `endereco` varchar(255) NOT NULL,
-  `telefone` varchar(15) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE administradores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    nome VARCHAR(100) NOT NULL,
+    sobrenome VARCHAR(100) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    endereco VARCHAR(255) NOT NULL,
+    telefone VARCHAR(15) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'funcionario', 'nutricionista') NOT NULL
+);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cardapios`
+-- Estrutura para tabela `cardapios`
 --
 
 CREATE TABLE `cardapios` (
@@ -56,7 +56,7 @@ CREATE TABLE `cardapios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cotacoes`
+-- Estrutura para tabela `cotacoes`
 --
 
 CREATE TABLE `cotacoes` (
@@ -71,7 +71,7 @@ CREATE TABLE `cotacoes` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `fornecedores`
+-- Estrutura para tabela `fornecedores`
 --
 
 CREATE TABLE `fornecedores` (
@@ -87,7 +87,7 @@ CREATE TABLE `fornecedores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `funcionarios`
+-- Estrutura para tabela `funcionarios`
 --
 
 CREATE TABLE `funcionarios` (
@@ -105,7 +105,7 @@ CREATE TABLE `funcionarios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `nutricionistas`
+-- Estrutura para tabela `nutricionistas`
 --
 
 CREATE TABLE `nutricionistas` (
@@ -124,7 +124,7 @@ CREATE TABLE `nutricionistas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `produtos`
+-- Estrutura para tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -139,7 +139,7 @@ CREATE TABLE `produtos` (
 --
 
 --
--- Índices para tabela `administradores`
+-- Índices de tabela `administradores`
 --
 ALTER TABLE `administradores`
   ADD PRIMARY KEY (`id`),
@@ -147,13 +147,13 @@ ALTER TABLE `administradores`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Índices para tabela `cardapios`
+-- Índices de tabela `cardapios`
 --
 ALTER TABLE `cardapios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices para tabela `cotacoes`
+-- Índices de tabela `cotacoes`
 --
 ALTER TABLE `cotacoes`
   ADD PRIMARY KEY (`id`),
@@ -161,14 +161,14 @@ ALTER TABLE `cotacoes`
   ADD KEY `id_fornecedor` (`id_fornecedor`);
 
 --
--- Índices para tabela `fornecedores`
+-- Índices de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Índices para tabela `funcionarios`
+-- Índices de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`id`),
@@ -176,7 +176,7 @@ ALTER TABLE `funcionarios`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Índices para tabela `nutricionistas`
+-- Índices de tabela `nutricionistas`
 --
 ALTER TABLE `nutricionistas`
   ADD PRIMARY KEY (`id`),
@@ -185,13 +185,13 @@ ALTER TABLE `nutricionistas`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Índices para tabela `produtos`
+-- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -237,11 +237,11 @@ ALTER TABLE `produtos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `cotacoes`
+-- Restrições para tabelas `cotacoes`
 --
 ALTER TABLE `cotacoes`
   ADD CONSTRAINT `cotacoes_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`),

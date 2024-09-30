@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Nutricionista {
     private $id;
     private $cpf;

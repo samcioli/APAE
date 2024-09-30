@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Cardapio {
     private $id;
     private $nome_prato;

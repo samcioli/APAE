@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Cotacao {
     private $id;
     private $produto_id;

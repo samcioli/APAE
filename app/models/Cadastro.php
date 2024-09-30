@@ -1,4 +1,7 @@
 <?php
+
+require_once 'config.php';
+
 class Cadastro {
     private $cpf;
     private $nome;
@@ -8,7 +11,7 @@ class Cadastro {
     private $telefone;
     private $email;
     private $senha;
-    private $role; // Adicionado para armazenar a função do usuário
+    private $role;
 
     public function __construct($dados = []) {
         if (!empty($dados)) {
@@ -20,15 +23,29 @@ class Cadastro {
             $this->telefone = $dados['telefone'];
             $this->email = $dados['email'];
             $this->senha = password_hash($dados['senha'], PASSWORD_DEFAULT);
-            $this->role = $dados['role']; // Armazena a função
+            $this->role = $dados['role'];
         }
     }
 
     public function salvar() {
         try {
             $db = new PDO('mysql:host=localhost;dbname=apae_db', 'root', '');
-            $stmt = $db->prepare("INSERT INTO administradores (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            return $stmt->execute([$this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, $this->endereco, $this->telefone, $this->email, $this->senha, $this->role]);
+            $stmt = null;
+
+            // Salva de acordo com a função
+            if ($this->role === 'admin') {
+                $stmt = $db->prepare("INSERT INTO administradores (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            } elseif ($this->role === 'funcionario') {
+                $stmt = $db->prepare("INSERT INTO funcionarios (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            } elseif ($this->role === 'nutricionista') {
+                $stmt = $db->prepare("INSERT INTO nutricionistas (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            }
+
+            if ($stmt) {
+                return $stmt->execute([$this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, $this->endereco, $this->telefone, $this->email, $this->senha, $this->role]);
+            }
+            return false;
+
         } catch (PDOException $e) {
             return false;
         }
@@ -42,6 +59,6 @@ class Cadastro {
     public function getEndereco() { return $this->endereco; }
     public function getTelefone() { return $this->telefone; }
     public function getEmail() { return $this->email; }
-    public function getRole() { return $this->role; } // Getter para a função
+    public function getRole() { return $this->role; }
 }
 ?>
