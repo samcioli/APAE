@@ -2,20 +2,19 @@
 session_start(); // Certifique-se de iniciar a sessão
 
 // Verifique se uma página específica foi solicitada
-$page = isset($_GET['page']) ? $_GET['page'] : 'cadastro'; // Altera aqui para 'cadastro'
+$page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Ajuste aqui para 'home'
 
 // Inclua a lógica do controlador apropriado
 switch ($page) {
-    case 'cadastro':
+    case 'cadastrar':
         include '../app/controllers/CadastroController.php';
         $controller = new CadastroController();
         $controller->cadastrar();
         break;
-    // Adicione outros casos para diferentes páginas, se necessário
+    case 'home':
+        include 'home.php'; // Adicione sua página home
+        break;
     default:
-        include '../app/controllers/CadastroController.php';
-        $controller = new CadastroController();
-        $controller->cadastrar(); // Redireciona para cadastro por padrão
+        include 'home.php'; // Redireciona para home por padrão
 }
-
 ?>

@@ -35,6 +35,11 @@ h1 {
 
 .btn {
     border-radius: 6px; /* Bordas arredondadas para botões */
+    padding: 10px 15px; /* Padding para maior conforto */
+    font-size: 16px; /* Tamanho da fonte */
+    margin-top: 10px; /* Espaçamento superior */
+    width: 100%; /* Largura total para os botões */
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
 }
 
 .btn-success {
@@ -44,6 +49,7 @@ h1 {
 
 .btn-success:hover {
     background-color: #218838; /* Cor do botão ao passar o mouse */
+    transform: scale(1.05); /* Leve aumento ao passar o mouse */
 }
 
 .btn-secondary {
@@ -53,6 +59,7 @@ h1 {
 
 .btn-secondary:hover {
     background-color: #5a6268; /* Cor do botão ao passar o mouse */
+    transform: scale(1.05); /* Leve aumento ao passar o mouse */
 }
 
 .alert {
