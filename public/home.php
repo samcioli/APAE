@@ -1,11 +1,17 @@
 <?php
 session_start();
-
-// Verifique se o usuário está logado, caso contrário, redirecione para a página de login
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: login.php"); // Redireciona se não estiver logado
     exit();
 }
+
+// index.php ou outro arquivo de entrada
+require_once '../app/controllers/HomeController.php';
+
+$controller = new HomeController();
+$controller->index(); // Chama o método index para carregar a página home
 
 // Simule a busca do nome do usuário (você pode substituir pelo nome real do usuário)
 $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se necessário

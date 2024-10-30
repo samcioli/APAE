@@ -1,7 +1,7 @@
 <?php
-require_once 'Database.php'; // Classe para conexão com o banco de dados
+require_once 'config.php'; // Classe para conexão com o banco de dados
 
-class LoginModel {
+class Login {
     private $db;
 
     public function __construct() {

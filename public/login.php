@@ -1,13 +1,11 @@
 <?php
-session_start();
 
 $erro = ''; // Inicializa a variável de erro
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Inclui os controladores necessários
-    require_once '../app/controllers/AdminController.php';
-    require_once '../app/controllers/FuncionarioController.php';
-    require_once '../app/controllers/NutricionistaController.php';
+    require_once '../app/controllers/LoginController.php';
+    $loginController = new LoginController();
+    $erro = $loginController->handleRequest();
 
     // Obtenha os dados do formulário
     $email = $_POST['email'];
@@ -21,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($adminController->login($email, $senha)) {
             // Login bem-sucedido
             $_SESSION['user_id'] = $adminController->getAdminId($email); // Armazena o ID do admin na sessão
-            header("Location: public/home.php");
+            header("Location: home.php");
             exit();
         } else {
             $erro = "Credenciais inválidas!";
@@ -36,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($funcionarioController->login($email, $senha)) {
             // Login bem-sucedido
             $_SESSION['user_id'] = $funcionarioController->getFuncionarioId($email); // Armazena o ID do funcionário na sessão
-            header("Location: public/home.php");
+            header("Location: home.php");
             exit();
         } else {
             $erro = "Credenciais inválidas!";
@@ -51,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($nutricionistaController->login($email, $senha)) {
             // Login bem-sucedido
             $_SESSION['user_id'] = $nutricionistaController->getNutricionistaId($email); // Armazena o ID do nutricionista na sessão
-            header("Location: public/home.php");
+            header("Location: home.php");
             exit();
         } else {
             $erro = "Credenciais inválidas!";
@@ -75,24 +73,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <img src="../img/LogoAnimado.gif" alt="Logo" class="logo img-fluid">
     </div>
     <form method="post" action="login.php">
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" required>
-        <label for="role">Função:</label>
-        <select name="role" required>
-            <option value="admin">Admin</option>
-            <option value="funcionario">Funcionário</option>
-            <option value="nutricionista">Nutricionista</option>
-        </select>
-        <br><br>
-        <button type="submit">Entrar</button>
-        <br><br>
-        <a href="../public/cadastro.php" class="btn btn-primary">Cadastrar</a>
-    </form>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
 
-    <?php if ($erro): ?>
-        <div class="alert alert-danger mt-3"><?php echo $erro; ?></div>
-    <?php endif; ?>
+    <label for="senha">Senha:</label>
+    <input type="password" id="senha" name="senha" required>
+
+    <label for="role">Função:</label>
+    <select id="role" name="role" required>
+        <option value="admin">Admin</option>
+        <option value="funcionario">Funcionário</option>
+        <option value="nutricionista">Nutricionista</option>
+    </select>
+
+    <button type="submit">Entrar</button>
+    <a href="../public/cadastro.php" class="btn btn-primary">Cadastrar</a>
+</form>
+
+
 </body>
 </html>
