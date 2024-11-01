@@ -11,7 +11,7 @@ class Login {
     public function buscarPorEmail($email) {
         // Método para buscar o usuário pelo email
         $query = "SELECT * FROM usuarios WHERE email = :email"; // Ajuste conforme sua tabela
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->db->getConnection()->prepare($query); // Usa o método getConnection
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ); // Retorna o usuário como objeto
@@ -22,4 +22,3 @@ class Login {
         return password_verify($senha, $senhaHash);
     }
 }
-?>

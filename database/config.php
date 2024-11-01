@@ -6,7 +6,10 @@ class Database {
     private $dbname = 'apae_db';
     private $username = 'root';
     private $password = '';
-    
+
+    // Atributo para armazenar a conexão
+    private $conn = null; // Inicializa como null
+
     public function getConnection() {
         if ($this->conn == null) {
             try {
@@ -19,9 +22,6 @@ class Database {
         }
         return $this->conn;
     }
-    // Atributo para armazenar a conexão
-    private $conn;
-    
 }
 
 ?>

@@ -1,38 +1,26 @@
 <?php
-include_once '../app/models/Cotacao.php';
+require_once '../app/models/Cotacao.php';
 
 class CotacaoController {
-    public static function cadastrar($dados) {
-        $cotacao = new Cotacao();
-        $cotacao->setProdutoId($dados['produto_id']);
-        $cotacao->setFornecedorId($dados['fornecedor_id']);
-        $cotacao->setPrecoUnitario($dados['preco_unitario']);
-        $cotacao->setQuantidade($dados['quantidade']);
-        $cotacao->setDataCotacao(date('Y-m-d')); // Data da cotação
-        $cotacao->cadastrar();
-    }
+    public function cadastrar() {
+        $erro = null;
 
-    public static function listar() {
-        return Cotacao::listar();
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Cria uma nova instância do modelo de cotação
+            $cotacao = new Cotacao($_POST); // Passa todos os dados do formulário ao construtor
 
-    public static function buscar($id) {
-        return Cotacao::buscarPorId($id);
-    }
+            // Tenta salvar os dados no banco
+            if ($cotacao->salvar()) {
+                header("Location: index.php?page=success");
+                exit();
+            } else {
+                $erro = "Erro ao cadastrar. Tente novamente.";
+            }
+        }
 
-    public static function editar($id, $dados) {
-        $cotacao = new Cotacao();
-        $cotacao->setId($id);
-        $cotacao->setProdutoId($dados['produto_id']);
-        $cotacao->setFornecedorId($dados['fornecedor_id']);
-        $cotacao->setPrecoUnitario($dados['preco_unitario']);
-        $cotacao->setQuantidade($dados['quantidade']);
-        $cotacao->setDataCotacao($dados['data_cotacao']);
-        $cotacao->atualizar();
-    }
-
-    public static function excluir($id) {
-        Cotacao::excluir($id);
+        // Inclui a visão do cadastro
+        include '../public/cotacao.php';
     }
 }
+
 ?>

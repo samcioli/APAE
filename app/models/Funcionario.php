@@ -1,8 +1,8 @@
 <?php
-
 require_once 'config.php';
 
 class Funcionario {
+    private $db;
     private $id;
     private $cpf;
     private $nome;
@@ -13,118 +13,53 @@ class Funcionario {
     private $email;
     private $senha;
 
-    // Getters e Setters
-    public function getId() { return $this->id; }
-    public function setId($id) { $this->id = $id; }
+    public function __construct() {
+        $this->db = (new Database())->getConnection();
+    }
 
-    public function getCpf() { return $this->cpf; }
+    // Setters
     public function setCpf($cpf) { $this->cpf = $cpf; }
-
-    public function getNome() { return $this->nome; }
     public function setNome($nome) { $this->nome = $nome; }
-
-    public function getSobrenome() { return $this->sobrenome; }
     public function setSobrenome($sobrenome) { $this->sobrenome = $sobrenome; }
-
-    public function getDataNascimento() { return $this->data_nascimento; }
     public function setDataNascimento($data_nascimento) { $this->data_nascimento = $data_nascimento; }
-
-    public function getEndereco() { return $this->endereco; }
     public function setEndereco($endereco) { $this->endereco = $endereco; }
-
-    public function getTelefone() { return $this->telefone; }
     public function setTelefone($telefone) { $this->telefone = $telefone; }
-
-    public function getEmail() { return $this->email; }
     public function setEmail($email) { $this->email = $email; }
-
-    public function getSenha() { return $this->senha; }
     public function setSenha($senha) { $this->senha = password_hash($senha, PASSWORD_DEFAULT); }
 
-    // Cadastrar funcionário
     public function cadastrar() {
-        if ($this->validarDados()) {
-            $conn = $this->conectar();
-            $stmt = $conn->prepare("INSERT INTO funcionarios (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssssss", $this->cpf, $this->nome, $this->sobrenome, $this->data_nascimento, $this->endereco, $this->telefone, $this->email, $this->senha);
-            $stmt->execute();
-            $stmt->close();
-            $conn->close();
-            return true;
-        }
-        return false;
+        $query = "INSERT INTO funcionarios (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (:cpf, :nome, :sobrenome, :data_nascimento, :endereco, :telefone, :email, :senha)";
+        $stmt = $this->db->prepare($query);
+        
+        // Bind dos parâmetros
+        $stmt->bindParam(':cpf', $this->cpf);
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':sobrenome', $this->sobrenome);
+        $stmt->bindParam(':data_nascimento', $this->data_nascimento);
+        $stmt->bindParam(':endereco', $this->endereco);
+        $stmt->bindParam(':telefone', $this->telefone);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':senha', $this->senha);
+
+        return $stmt->execute();
     }
 
-    // Listar funcionários
+    public static function buscarPorEmail($email) {
+        $db = (new Database())->getConnection();
+        $query = "SELECT * FROM funcionarios WHERE email = :email";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
     public static function listar() {
-        $conn = self::conectar();
-        $result = $conn->query("SELECT * FROM funcionarios");
-        $funcionarios = $result->fetch_all(MYSQLI_ASSOC);
-        $conn->close();
-        return $funcionarios;
-    }
-
-    // Buscar por ID
-    public static function buscarPorId($id) {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("SELECT * FROM funcionarios WHERE id = ?");
-        $stmt->bind_param("i", $id);
+        $db = (new Database())->getConnection();
+        $query = "SELECT * FROM funcionarios";
+        $stmt = $db->prepare($query);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $funcionario = $result->fetch_object();
-        $stmt->close();
-        $conn->close();
-        return $funcionario;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // Buscar por Email
-    public static function findByEmail($email) {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("SELECT * FROM funcionarios WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $funcionario = $result->fetch_assoc(); // Retorna os dados do funcionário
-        $stmt->close();
-        $conn->close();
-        return $funcionario; // Retorna null se não encontrar
-    }
-
-    // Atualizar funcionário
-    public function atualizar() {
-        if ($this->validarDados()) {
-            $conn = self::conectar();
-            $stmt = $conn->prepare("UPDATE funcionarios SET cpf = ?, nome = ?, sobrenome = ?, data_nascimento = ?, endereco = ?, telefone = ?, email = ?, senha = ? WHERE id = ?");
-            $stmt->bind_param("ssssssssi", $this->cpf, $this->nome, $this->sobrenome, $this->data_nascimento, $this->endereco, $this->telefone, $this->email, $this->senha, $this->id);
-            $stmt->execute();
-            $stmt->close();
-            $conn->close();
-            return true;
-        }
-        return false;
-    }
-
-    // Excluir funcionário
-    public static function excluir($id) {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("DELETE FROM funcionarios WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
-    }
-
-    // Conectar ao banco de dados
-    private static function conectar() {
-        return new mysqli("localhost", "root", "", "apae_db");
-    }
-
-    // Validar dados
-    private function validarDados() {
-        if (empty($this->cpf) || empty($this->nome) || empty($this->sobrenome) || empty($this->email) || !filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-        return true;
-    }
+    
 }
 ?>

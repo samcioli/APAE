@@ -1,11 +1,10 @@
 <?php
-
 require_once 'config.php';
 
 class Nutricionista {
+    private $db;
     private $id;
     private $cpf;
-    private $crn;
     private $nome;
     private $sobrenome;
     private $data_nascimento;
@@ -14,78 +13,52 @@ class Nutricionista {
     private $email;
     private $senha;
 
-    // Getters e Setters
-    public function getId() { return $this->id; }
-    public function setId($id) { $this->id = $id; }
-    public function getCpf() { return $this->cpf; }
+    public function __construct() {
+        $this->db = (new Database())->getConnection();
+    }
+
+    // Setters
     public function setCpf($cpf) { $this->cpf = $cpf; }
-    public function getCrn() { return $this->crn; }
-    public function setCrn($crn) { $this->crn = $crn; }
-    public function getNome() { return $this->nome; }
     public function setNome($nome) { $this->nome = $nome; }
-    public function getSobrenome() { return $this->sobrenome; }
     public function setSobrenome($sobrenome) { $this->sobrenome = $sobrenome; }
-    public function getDataNascimento() { return $this->data_nascimento; }
     public function setDataNascimento($data_nascimento) { $this->data_nascimento = $data_nascimento; }
-    public function getEndereco() { return $this->endereco; }
     public function setEndereco($endereco) { $this->endereco = $endereco; }
-    public function getTelefone() { return $this->telefone; }
     public function setTelefone($telefone) { $this->telefone = $telefone; }
-    public function getEmail() { return $this->email; }
     public function setEmail($email) { $this->email = $email; }
-    public function getSenha() { return $this->senha; }
-    public function setSenha($senha) { $this->senha = $senha; }
+    public function setSenha($senha) { $this->senha = password_hash($senha, PASSWORD_DEFAULT); }
 
     public function cadastrar() {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("INSERT INTO nutricionistas (cpf, crn, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssssss", $this->cpf, $this->crn, $this->nome, $this->sobrenome, $this->data_nascimento, $this->endereco, $this->telefone, $this->email, $this->senha);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
-        return true;
+        $query = "INSERT INTO nutricionistas (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (:cpf, :nome, :sobrenome, :data_nascimento, :endereco, :telefone, :email, :senha)";
+        $stmt = $this->db->prepare($query);
+        
+        // Bind dos parâmetros
+        $stmt->bindParam(':cpf', $this->cpf);
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':sobrenome', $this->sobrenome);
+        $stmt->bindParam(':data_nascimento', $this->data_nascimento);
+        $stmt->bindParam(':endereco', $this->endereco);
+        $stmt->bindParam(':telefone', $this->telefone);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':senha', $this->senha);
+
+        return $stmt->execute();
     }
 
+    public static function buscarPorEmail($email) {
+        $db = (new Database())->getConnection();
+        $query = "SELECT * FROM nutricionistas WHERE email = :email";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     public static function listar() {
-        $conn = self::conectar();
-        $result = $conn->query("SELECT * FROM nutricionistas");
-        $nutricionistas = $result->fetch_all(MYSQLI_ASSOC);
-        $conn->close();
-        return $nutricionistas;
-    }
-
-    public static function buscarPorId($id) {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("SELECT * FROM nutricionistas WHERE id = ?");
-        $stmt->bind_param("i", $id);
+        $db = (new Database())->getConnection();
+        $query = "SELECT * FROM nutricionistas";
+        $stmt = $db->prepare($query);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $nutricionista = $result->fetch_object();
-        $stmt->close();
-        $conn->close();
-        return $nutricionista;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    public function atualizar() {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("UPDATE nutricionistas SET cpf = ?, crn = ?, nome = ?, sobrenome = ?, data_nascimento = ?, endereco = ?, telefone = ?, email = ?, senha = ? WHERE id = ?");
-        $stmt->bind_param("sssssssssi", $this->cpf, $this->crn, $this->nome, $this->sobrenome, $this->data_nascimento, $this->endereco, $this->telefone, $this->email, $this->senha, $this->id);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
-    }
-
-    public static function excluir($id) {
-        $conn = self::conectar();
-        $stmt = $conn->prepare("DELETE FROM nutricionistas WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
-    }
-
-    private static function conectar() {
-        return new mysqli("localhost", "usuario", "senha", "database");
-    }
+    
 }
 ?>

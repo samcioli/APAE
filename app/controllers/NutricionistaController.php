@@ -1,84 +1,69 @@
 <?php
 require_once '../app/models/Nutricionista.php';
-require_once '../app/models/Cardapio.php';
 
 class NutricionistaController {
+    public function handleRequest() {
+        $action = $_GET['action'] ?? null;
 
-    // Método para cadastrar um novo nutricionista
-    public function cadastrar() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nutricionista = new Nutricionista();
-            $nutricionista->setCpf($_POST['cpf']);
-            $nutricionista->setCrn($_POST['crn']);
-            $nutricionista->setNome($_POST['nome']);
-            $nutricionista->setSobrenome($_POST['sobrenome']);
-            $nutricionista->setDataNascimento($_POST['data_nascimento']);
-            $nutricionista->setEndereco($_POST['endereco']);
-            $nutricionista->setTelefone($_POST['telefone']);
-            $nutricionista->setEmail($_POST['email']);
-            $nutricionista->setSenha(password_hash($_POST['senha'], PASSWORD_DEFAULT));
-            $nutricionista->cadastrar();
-            header("Location: gerenciar.php");
-            exit();
+        switch ($action) {
+            case 'login':
+                $this->login();
+                break;
+            case 'cadastrar':
+                $this->cadastrar();
+                break;
+            default:
+                $this->listar();
+                break;
         }
-        include '../views/nutricionista/cadastro.php';
     }
 
-    // Método para listar todos os nutricionistas
-    public function listar() {
-        $nutricionistas = Nutricionista::listar();
-        include '../views/nutricionista/listar.php';
-    }
+    private function login() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $email = $_POST['email'];
+            $senha = $_POST['senha'];
 
-    // Método para editar um nutricionista
-    public function editar($id) {
-        $nutricionista = Nutricionista::buscarPorId($id);
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nutricionista->setCpf($_POST['cpf']);
-            $nutricionista->setCrn($_POST['crn']);
-            $nutricionista->setNome($_POST['nome']);
-            $nutricionista->setSobrenome($_POST['sobrenome']);
-            $nutricionista->setDataNascimento($_POST['data_nascimento']);
-            $nutricionista->setEndereco($_POST['endereco']);
-            $nutricionista->setTelefone($_POST['telefone']);
-            $nutricionista->setEmail($_POST['email']);
-            if (!empty($_POST['senha'])) {
-                $nutricionista->setSenha(password_hash($_POST['senha'], PASSWORD_DEFAULT));
+            $nutricionista = Nutricionista::buscarPorEmail($email);
+
+            if ($nutricionista && password_verify($senha, $nutricionista['senha'])) {
+                session_start();
+                $_SESSION['usuario'] = $nutricionista;
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                echo "Credenciais inválidas!";
+                include '../app/views/pages/nutricionista_login.php';
             }
-            $nutricionista->atualizar();
-            header("Location: gerenciar.php");
-            exit();
+        } else {
+            include '../app/views/pages/nutricionista_login.php';
         }
-        include '../views/nutricionista/editar.php';
     }
 
-    // Método para excluir um nutricionista
-    public function excluir($id) {
-        Nutricionista::excluir($id);
-        header("Location: gerenciar.php");
-        exit();
-    }
+    private function cadastrar() {
+        $nutricionista = new Nutricionista();
+        $nutricionista->setCpf($_POST['cpf']);
+        $nutricionista->setNome($_POST['nome']);
+        $nutricionista->setSobrenome($_POST['sobrenome']);
+        $nutricionista->setDataNascimento($_POST['data_nascimento']);
+        $nutricionista->setEndereco($_POST['endereco']);
+        $nutricionista->setTelefone($_POST['telefone']);
+        $nutricionista->setEmail($_POST['email']);
+        $nutricionista->setSenha($_POST['senha']);
 
-    // Método para gerenciar cardápios
-    public function gerenciarCardapio() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $cardapio = new Cardapio();
-            $cardapio->setNomePrato($_POST['nome_prato']);
-            $cardapio->setIngredientes($_POST['ingredientes']);
-            $cardapio->setValorNutricional($_POST['valor_nutricional']);
-            $cardapio->setDataValidade($_POST['data_validade']);
-            $cardapio->cadastrar();
-            header("Location: listar_cardapios.php");
-            exit();
+        if ($nutricionista->cadastrar()) {
+            header('Location: nutricionista_view.php?msg=Cadastro realizado com sucesso!');
+        } else {
+            header('Location: nutricionista_view.php?msg=Erro no cadastro.');
         }
-        include '../views/nutricionista/cadastrar_cardapio.php';
     }
 
-    // Método para listar todos os cardápios
-    public function listarCardapios() {
-        $cardapios = Cardapio::listar();
-        include '../views/nutricionista/listar_cardapios.php';
+    private function listar() {
+        // Lógica para listar nutricionistas se necessário
+        include '../app/views/nutricionista/nutricionista_view.php';
     }
 }
+
+// Executa o controlador
+$controller = new NutricionistaController();
+$controller->handleRequest();
 ?>
