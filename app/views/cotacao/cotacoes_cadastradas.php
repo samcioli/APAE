@@ -56,6 +56,7 @@ $result = $conn->query($sql);
                         echo "<td>" . $row['data_cotacao'] . "</td>";
                         echo "<td>
                                 <a href='editar_cotacao.php?id=" . $row['id'] . "' class='btn btn-warning'>Editar</a>
+                                <a href='excluir_cotacao.php?id=" . $row['id'] . "' class='btn btn-danger' onclick='return confirm(\"Tem certeza que deseja excluir esta cotação?\");'>Excluir</a>
                               </td>";
                         echo "</tr>";
                     }
