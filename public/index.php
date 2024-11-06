@@ -1,9 +1,7 @@
 <?php
-
 // Verifique se uma página específica foi solicitada
 $page = isset($_GET['page']) ? $_GET['page'] : 'home'; // Ajuste aqui para 'home'
 
-// Inclua a lógica do controlador apropriado
 switch ($page) {
     case 'cadastrar':
         include '../app/controllers/CadastroController.php';
@@ -11,10 +9,22 @@ switch ($page) {
         $controller->cadastrar();
         break;
 
-    case 'cadastrar_cotacao': // Para o cadastro de cotações
+    case 'cadastrar_cotacao':
         include '../app/controllers/CotacaoController.php';
         $controller = new CotacaoController();
         $controller->cadastrar();
+        break;
+
+    case 'editar_cotacao':
+        include '../app/controllers/CotacaoController.php';
+        $controller = new CotacaoController();
+        $controller->editar();
+        break;
+
+    case 'editar_cotacao_action':
+        include '../app/controllers/CotacaoController.php';
+        $controller = new CotacaoController();
+        $controller->atualizar();
         break;
 
     case 'home':
