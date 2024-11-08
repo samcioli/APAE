@@ -1,65 +1,102 @@
 <?php
+
 require_once 'config.php';
 
 class Funcionario {
-    private $db;
     private $id;
     private $cpf;
     private $nome;
     private $sobrenome;
-    private $data_nascimento;
+    private $dataNascimento;
     private $endereco;
     private $telefone;
     private $email;
     private $senha;
 
-    public function __construct() {
-        $this->db = (new Database())->getConnection();
+    // Construtor
+    public function __construct($id = null) {
+        if ($id) {
+            $this->carregar($id);
+        }
     }
 
-    // Setters
+    private function carregar($id) {
+        // Lógica para buscar o funcionário pelo ID no banco de dados
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("SELECT * FROM funcionarios WHERE id = ?");
+        $stmt->execute([$id]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $this->id = $data['id'];
+            $this->cpf = $data['cpf'];
+            $this->nome = $data['nome'];
+            $this->sobrenome = $data['sobrenome'];
+            $this->dataNascimento = $data['data_nascimento'];
+            $this->endereco = $data['endereco'];
+            $this->telefone = $data['telefone'];
+            $this->email = $data['email'];
+            $this->senha = $data['senha'];
+        }
+    }
+
+    // Getters e Setters
+    public function getId() { return $this->id; }
+    public function setId($id) { $this->id = $id; }
+    public function getCpf() { return $this->cpf; }
     public function setCpf($cpf) { $this->cpf = $cpf; }
+    public function getNome() { return $this->nome; }
     public function setNome($nome) { $this->nome = $nome; }
+    public function getSobrenome() { return $this->sobrenome; }
     public function setSobrenome($sobrenome) { $this->sobrenome = $sobrenome; }
-    public function setDataNascimento($data_nascimento) { $this->data_nascimento = $data_nascimento; }
+    public function getDataNascimento() { return $this->dataNascimento; }
+    public function setDataNascimento($dataNascimento) { $this->dataNascimento = $dataNascimento; }
+    public function getEndereco() { return $this->endereco; }
     public function setEndereco($endereco) { $this->endereco = $endereco; }
+    public function getTelefone() { return $this->telefone; }
     public function setTelefone($telefone) { $this->telefone = $telefone; }
+    public function getEmail() { return $this->email; }
     public function setEmail($email) { $this->email = $email; }
+    public function getSenha() { return $this->senha; }
     public function setSenha($senha) { $this->senha = password_hash($senha, PASSWORD_DEFAULT); }
 
-    public function cadastrar() {
-        $query = "INSERT INTO funcionarios (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (:cpf, :nome, :sobrenome, :data_nascimento, :endereco, :telefone, :email, :senha)";
-        $stmt = $this->db->prepare($query);
-        
-        // Bind dos parâmetros
-        $stmt->bindParam(':cpf', $this->cpf);
-        $stmt->bindParam(':nome', $this->nome);
-        $stmt->bindParam(':sobrenome', $this->sobrenome);
-        $stmt->bindParam(':data_nascimento', $this->data_nascimento);
-        $stmt->bindParam(':endereco', $this->endereco);
-        $stmt->bindParam(':telefone', $this->telefone);
-        $stmt->bindParam(':email', $this->email);
-        $stmt->bindParam(':senha', $this->senha);
-
-        return $stmt->execute();
+    // Métodos para CRUD
+    public static function listar() {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->query("SELECT * FROM funcionarios");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function buscarPorEmail($email) {
-        $db = (new Database())->getConnection();
-        $query = "SELECT * FROM funcionarios WHERE email = :email";
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+    public function salvar() {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("INSERT INTO funcionarios (cpf, nome, sobrenome, data_nascimento, endereco, telefone, email, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        return $stmt->execute([$this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, $this->endereco, $this->telefone, $this->email, $this->senha]);
+    }
+
+    public function atualizar() {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("UPDATE funcionarios SET cpf = ?, nome = ?, sobrenome = ?, data_nascimento = ?, endereco = ?, telefone = ?, email = ? WHERE id = ?");
+        return $stmt->execute([$this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, $this->endereco, $this->telefone, $this->email, $this->id]);
+    }
+
+    public static function excluir($id) {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("DELETE FROM funcionarios WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+
+    public static function buscar($id) {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("SELECT * FROM funcionarios WHERE id = ?");
+        $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     
-    public static function listar() {
-        $db = (new Database())->getConnection();
-        $query = "SELECT * FROM funcionarios";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public static function buscarPorEmail($email) {
+        $db = new PDO('mysql:host=localhost;dbname=apae_db', 'username', 'password');
+        $stmt = $db->prepare("SELECT * FROM funcionarios WHERE email = ?");
+        $stmt->execute([$email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    
 }
 ?>

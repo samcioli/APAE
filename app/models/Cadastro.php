@@ -30,7 +30,6 @@ class Cadastro {
     public function salvar() {
         try {
             $db = new PDO('mysql:host=localhost;dbname=apae_db', 'root', '');
-            $stmt = null;
 
             // Salva de acordo com a função
             if ($this->role === 'admin') {
@@ -42,11 +41,16 @@ class Cadastro {
             }
 
             if ($stmt) {
-                return $stmt->execute([$this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, $this->endereco, $this->telefone, $this->email, $this->senha, $this->role]);
+                return $stmt->execute([
+                    $this->cpf, $this->nome, $this->sobrenome, $this->dataNascimento, 
+                    $this->endereco, $this->telefone, $this->email, $this->senha, $this->role
+                ]);
             }
+
             return false;
 
         } catch (PDOException $e) {
+            // Tratar erro de conexão ou inserção
             return false;
         }
     }

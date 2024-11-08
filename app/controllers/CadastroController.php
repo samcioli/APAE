@@ -19,7 +19,7 @@ class CadastroController {
         }
 
         // Inclui a visão do cadastro
-        include '../app/views/cadastro/cadastro_view.php';
+        include '../public/cadastro.php';
     }
 }
 ?>
