@@ -24,7 +24,7 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Sistema</a>
+            <a class="navbar-brand" href="#">APAE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -40,12 +40,6 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
                     <li class="nav-item">
                         <a class="nav-link" a href="../app/views/usuario/listar_usuarios.php" >Funcionarios</a> <!-- Link para o logout -->
                     </li>
-                        <a class="nav-link" href="profile.php">Perfil</a> <!-- Link para a página de perfil -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Sair</a> <!-- Link para o logout -->
-                    </li>
-                    
                 </ul>
             </div>
         </div>
@@ -62,7 +56,6 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
     </div>
 
     <footer class="text-center mt-5">
-        <p>&copy; 2024 Seu Sistema. Todos os direitos reservados.</p>
     </footer>
 </body>
 </html>
