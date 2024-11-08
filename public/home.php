@@ -1,11 +1,4 @@
 <?php
-session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redireciona se não estiver logado
-    exit();
-}
 
 // index.php ou outro arquivo de entrada
 require_once '../app/controllers/HomeController.php';
@@ -41,11 +34,18 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
                         <a class="nav-link active" aria-current="page" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="cotacao.php">Cotações</a> <!-- Link para o logout -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Funcionarios</a> <!-- Link para o logout -->
+                    </li>
                         <a class="nav-link" href="profile.php">Perfil</a> <!-- Link para a página de perfil -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="logout.php">Sair</a> <!-- Link para o logout -->
                     </li>
+                    
                 </ul>
             </div>
         </div>

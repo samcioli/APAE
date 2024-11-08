@@ -1,7 +1,9 @@
 <?php
+
 class HomeController {
     public function index() {
-        include BASE_PATH . '../app/views/pages/home.php'; // Atualizado para o novo caminho
+        $homePath = __DIR__ . '/../public/home.php'; // Caminho absoluto baseado no diretório atual
     }
 }
+
 ?>
