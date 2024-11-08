@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php'; // Classe para conexão com o banco de dados
+include_once($_SERVER['DOCUMENT_ROOT'] . '/APAE/database/config.php'); // Classe para conexão com o banco de dados
 
 class Login {
     private $db;

@@ -1,6 +1,6 @@
 <?php
 // Incluir o arquivo de configuração para conectar ao banco de dados
-include('config.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/APAE/database/config.php');
 
 // Criar uma instância da classe Database
 $database = new Database();

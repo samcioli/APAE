@@ -1,6 +1,6 @@
 <?php
 
-require_once 'config.php';
+include_once($_SERVER['DOCUMENT_ROOT'] . '/APAE/database/config.php');
 
 class Admin {
     private $id;

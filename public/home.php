@@ -35,10 +35,10 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
                     </li>
                     <li class="nav-item">
                     <li class="nav-item">
-                        <a class="nav-link" href="cotacao.php">Cotações</a> <!-- Link para o logout -->
+                        <a class="nav-link" a href="../app/views/cotacao/cotacoes_cadastradas.php" >Cotações</a> <!-- Link para o logout -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Funcionarios</a> <!-- Link para o logout -->
+                        <a class="nav-link" a href="../app/views/usuario/listar_usuarios.php" >Funcionarios</a> <!-- Link para o logout -->
                     </li>
                         <a class="nav-link" href="profile.php">Perfil</a> <!-- Link para a página de perfil -->
                     </li>
