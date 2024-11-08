@@ -12,6 +12,7 @@ class Cadastro {
     private $email;
     private $senha;
     private $role;
+    
 
     public function __construct($dados = []) {
         if (!empty($dados)) {
