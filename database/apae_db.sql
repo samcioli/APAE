@@ -123,6 +123,15 @@ CREATE TABLE `produtos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE `relatorios` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `titulo` VARCHAR(255) NOT NULL,
+  `descricao` TEXT NOT NULL,
+  `data_emissao` DATE NOT NULL,
+  `arquivo` VARCHAR(255) NOT NULL,  -- Para armazenar o caminho do arquivo
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 -- Não é necessário usar `ALTER TABLE` para adicionar `AUTO_INCREMENT`, pois já foi definido na criação das tabelas.
 
 -- Comandos de ALTER TABLE para auto incremento (remover se já estiver incluído acima)
