@@ -45,7 +45,7 @@ class RelatorioController {
                 }
             } catch (Exception $e) {
                 $erro = "Erro de conexão: " . $e->getMessage();
-                include 'cadastro_relatorio.php';  // Exibe o formulário com erro
+                include 'relatorio.php';  // Exibe o formulário com erro
             }
         }
     }

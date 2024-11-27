@@ -46,6 +46,9 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
                     <li class="nav-item">
                         <a class="nav-link" a href="../app/views/fornecedor/fornecedor_view.php" >Fornecedores</a> <!-- Link para o logout -->
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" a href="../app/views/relatorio/listar_relatorios.php" >Relatorios</a> <!-- Link para o logout -->
+                    </li>
                 </ul>
             </div>
         </div>
@@ -74,6 +77,8 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
             <div class="d-flex justify-content-center">
             <a href="fornecedor.php">Fornecedor</a>
         </div>
+        <div class="d-flex justify-content-center">
+            <a href="relatorio.php">Relatório</a>
     </div>
 
     <footer class="text-center mt-5">
