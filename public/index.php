@@ -15,6 +15,18 @@ switch ($page) {
         $controller->cadastrar();
         break;
 
+    case 'cadastrar_cardapio': // Novo case para cadastro de cardápio
+        include '../app/controllers/CardapioController.php'; // Inclui o controlador de Cardápio
+        $controller = new CardapioController();
+        $controller->cadastrar(); // Chama a função cadastrar do controlador
+        break;
+
+    case 'cadastrar_fornecedor': // Novo case para cadastro de fornecedor
+        include '../app/controllers/FornecedorController.php'; // Inclui o controlador de Fornecedor
+        $controller = new FornecedorController();
+        $controller->cadastrar(); // Chama a função cadastrar do controlador
+        break;    
+
     case 'editar_cotacao':
         include '../app/controllers/CotacaoController.php';
         $controller = new CotacaoController();

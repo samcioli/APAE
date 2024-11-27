@@ -40,18 +40,39 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
                     <li class="nav-item">
                         <a class="nav-link" a href="../app/views/usuario/listar_usuarios.php" >Funcionarios</a> <!-- Link para o logout -->
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" a href="../app/views/cardapio/cardapio_view.php" >Cardapio</a> <!-- Link para o logout -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" a href="../app/views/fornecedor/fornecedor_view.php" >Fornecedores</a> <!-- Link para o logout -->
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <div class="container mt-5">
-        <h1 class="text-center">Bem-vindo(a), <?php echo htmlspecialchars($nome_usuario); ?>!</h1>
+        <h1 class="text-center">Bem-vindo(a), Admin!</h1>
         <p class="text-center">Você está logado no sistema.</p>
         
         <div class="d-flex justify-content-center">
             <a href="profile.php" class="btn btn-primary me-2">Ver Perfil</a> <!-- Botão para ver o perfil -->
-            <a href="logout.php" class="btn btn-danger">Sair</a> <!-- Botão para logout -->
+            <a href="logout.php" class="btn btn-danger">Sair</a>
+            </div>
+            <div class="d-flex justify-content-center">
+            <p class="text-center"><br><br>Cadastrar: </p>
+            </div>
+            <div class="d-flex justify-content-center">
+            <a href="cadastro.php">Usuario</a> 
+            </div>
+            <div class="d-flex justify-content-center">
+            <a href="cotacao.php">Cotação</a>
+            </div>
+            <div class="d-flex justify-content-center">
+            <a href="cardapio.php">Cardápio</a>
+            </div>
+            <div class="d-flex justify-content-center">
+            <a href="fornecedor.php">Fornecedor</a>
         </div>
     </div>
 
