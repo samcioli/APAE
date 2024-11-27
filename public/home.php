@@ -62,24 +62,6 @@ $nome_usuario = "Usuário"; // Substitua com o nome do usuário logado, se neces
             <a href="profile.php" class="btn btn-primary me-2">Ver Perfil</a> <!-- Botão para ver o perfil -->
             <a href="logout.php" class="btn btn-danger">Sair</a>
             </div>
-            <div class="d-flex justify-content-center">
-            <p class="text-center"><br><br>Cadastrar: </p>
-            </div>
-            <div class="d-flex justify-content-center">
-            <a href="cadastro.php">Usuario</a> 
-            </div>
-            <div class="d-flex justify-content-center">
-            <a href="cotacao.php">Cotação</a>
-            </div>
-            <div class="d-flex justify-content-center">
-            <a href="cardapio.php">Cardápio</a>
-            </div>
-            <div class="d-flex justify-content-center">
-            <a href="fornecedor.php">Fornecedor</a>
-        </div>
-        <div class="d-flex justify-content-center">
-            <a href="relatorio.php">Relatório</a>
-    </div>
 
     <footer class="text-center mt-5">
     </footer>

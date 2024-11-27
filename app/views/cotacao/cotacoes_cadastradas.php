@@ -93,6 +93,8 @@ $result = $conn->query($sql);
         </table>
 
         <a href="index.php" class="btn btn-secondary">Voltar</a>
+    <a href="cotacao.php" class="btn btn-primary">Cadastrar Nova Cotação</a>
+
     </div>
 
     <!-- Scripts do Bootstrap -->

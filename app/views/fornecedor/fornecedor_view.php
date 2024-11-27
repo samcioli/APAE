@@ -91,6 +91,7 @@ $result = $conn->query($sql);
         </table>
 
         <a href="index.php" class="btn btn-secondary">Voltar</a>
+        <a href="fornecedor.php" class="btn btn-primary">Cadastrar Novo Fornecedor</a>
     </div>
 
     <!-- Scripts do Bootstrap -->

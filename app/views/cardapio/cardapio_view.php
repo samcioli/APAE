@@ -86,6 +86,7 @@ $result = $conn->query($sql);
         </table>
 
         <a href="index.php" class="btn btn-secondary">Voltar</a>
+        <a href="cardapio.php" class="btn btn-primary">Cadastrar Novo Cardápio</a>
     </div>
 
     <!-- Scripts do Bootstrap -->
